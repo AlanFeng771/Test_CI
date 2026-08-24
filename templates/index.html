@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>簡易加法計算器</title>
+</head>
+<body>
+    <h1>簡易加法計算器</h1>
+    <input id="a" type="number" placeholder="數字 A">
+    <input id="b" type="number" placeholder="數字 B">
+    <button onclick="calculate()">計算</button>
+    <p>結果：<span id="result">-</span></p>
+
+    <script>
+        async function calculate() {
+            const a = document.getElementById("a").value;
+            const b = document.getElementById("b").value;
+            const response = await fetch(`/api/add?a=${a}&b=${b}`);
+            const data = await response.json();
+            document.getElementById("result").textContent =
+                data.result !== undefined ? data.result : data.error;
+        }
+    </script>
+</body>
+</html>
