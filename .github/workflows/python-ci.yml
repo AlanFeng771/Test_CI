@@ -34,3 +34,17 @@ jobs:
 
       - name: 运行测试
         run: pytest tests/ -v                # -v 输出详细测试结果
+
+  secret-scan:
+    name: 机敏资讯扫描（gitleaks）
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0                     # 拉取完整 git 历史，才能扫描过去 commit 中的机敏资讯
+
+      - name: 执行 gitleaks 扫描
+        run: |
+          docker run --rm -v "${{ github.workspace }}:/repo" zricethezav/gitleaks:latest \
+            detect --source /repo --verbose --redact
